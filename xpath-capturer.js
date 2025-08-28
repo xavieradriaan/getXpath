@@ -12,7 +12,6 @@
     let clickCount = 0;
     let capturedXPaths = [];
     
-    // Función para obtener el XPath de un elemento
     function getXPath(element) {
         if (element.id !== '') {
             return `//*[@id="${element.id}"]`;
@@ -36,14 +35,11 @@
         }
     }
     
-    // Función para obtener XPath alternativo más robusto
     function getRobustXPath(element) {
-        // Intentar con ID primero
         if (element.id) {
             return `//*[@id="${element.id}"]`;
         }
         
-        // Intentar con clases únicas
         if (element.className) {
             let classes = element.className.split(' ').filter(c => c.trim());
             if (classes.length > 0) {
@@ -53,7 +49,6 @@
             }
         }
         
-        // Intentar con atributos data-*
         let dataAttrs = element.attributes;
         for (let i = 0; i < dataAttrs.length; i++) {
             let attr = dataAttrs[i];
@@ -62,7 +57,6 @@
             }
         }
         
-        // Usar XPath relativo con texto si es posible
         if (element.textContent && element.textContent.trim()) {
             let text = element.textContent.trim().substring(0, 50);
             if (text.length > 0) {
@@ -70,11 +64,9 @@
             }
         }
         
-        // Fallback al XPath completo
         return getXPath(element);
     }
     
-    // Función para manejar el clic
     function handleClick(event) {
         if (!isCapturing) return;
         
@@ -98,7 +90,6 @@
         
         capturedXPaths.push(elementInfo);
         
-        // Mostrar información en consola
         console.log(`%c[CLICK ${clickCount}] ${element.tagName}`, 'color: #00ff00; font-weight: bold;');
         console.log('Texto:', elementInfo.text);
         console.log('XPath recomendado:', xpath);
@@ -106,7 +97,6 @@
         console.log('Timestamp:', elementInfo.timestamp);
         console.log('---');
         
-        // Resaltar el elemento temporalmente
         element.style.outline = '3px solid #00ff00';
         element.style.backgroundColor = 'rgba(0, 255, 0, 0.2)';
         
@@ -118,7 +108,6 @@
         return false;
     }
     
-    // Función para iniciar la captura
     function startCapturing() {
         if (isCapturing) {
             console.log('La captura ya está activa');
@@ -137,11 +126,9 @@
         console.log('Usa showResults() para ver todos los resultados');
         console.log('---');
         
-        // Cambiar el cursor para indicar que está activo
         document.body.style.cursor = 'crosshair';
     }
     
-    // Función para detener la captura
     function stopCapturing() {
         if (!isCapturing) {
             console.log('La captura no está activa');
@@ -157,7 +144,6 @@
         console.log('---');
     }
     
-    // Función para mostrar todos los resultados
     function showResults() {
         if (capturedXPaths.length === 0) {
             console.log('No hay XPaths capturados');
@@ -175,11 +161,9 @@
             console.log('---');
         });
         
-        // Mostrar resumen
         console.log(`%cTotal: ${capturedXPaths.length} elementos capturados`, 'color: #00aa00; font-weight: bold;');
     }
     
-    // Función para exportar resultados como JSON
     function exportResults() {
         if (capturedXPaths.length === 0) {
             console.log('No hay resultados para exportar');
@@ -197,14 +181,12 @@
         console.log('Resultados exportados como JSON');
     }
     
-    // Función para limpiar resultados
     function clearResults() {
         capturedXPaths = [];
         clickCount = 0;
         console.log('Resultados limpiados');
     }
     
-    // Función para obtener XPath de un elemento específico
     function getElementXPath(selector) {
         let element = document.querySelector(selector);
         if (!element) {
@@ -222,7 +204,6 @@
         return { xpath, fullXpath };
     }
     
-    // Agregar funciones al objeto window
     window.xpathCapturer = {
         start: startCapturing,
         stop: stopCapturing,
@@ -235,7 +216,6 @@
         getResults: () => capturedXPaths
     };
     
-    // Mostrar instrucciones iniciales
             console.log('%cXPATH CAPTURER CARGADO', 'color: #ff6600; font-size: 18px; font-weight: bold;');
     console.log('Comandos disponibles:');
     console.log('  xpathCapturer.start()  - Iniciar captura');
